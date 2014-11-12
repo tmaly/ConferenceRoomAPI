@@ -49,7 +49,7 @@ namespace ConferenceRoomAPI.Controllers
 
                 if (_id != null && date.IsDate())
                 {                    
-                    var list = _toLocal(srv.GetRoomScheduleForDate(_id.MailBox, date.ToDate().Value));                    
+                    var list = srv.GetRoomScheduleForDate(_id.MailBox, date.ToDate().Value);                    
                     return Request.CreateResponse(HttpStatusCode.OK, list, "application/json");
                 }
                 else
@@ -83,7 +83,7 @@ namespace ConferenceRoomAPI.Controllers
                 {
                     // api/ConferenceRoom/{id}/schedule/{date}
                     var srv = new Services();
-                    var list = _toLocal(srv.GetRoomScheduleForDateRange(_id.MailBox, startdate.ToDate().Value, enddate.ToDate().Value));
+                    var list = srv.GetRoomScheduleForDateRange(_id.MailBox, startdate.ToDate().Value, enddate.ToDate().Value);
                     return Request.CreateResponse(HttpStatusCode.OK, list, "application/json");
                 }
                 else

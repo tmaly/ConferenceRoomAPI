@@ -50,7 +50,7 @@ namespace ConferenceRoomAPI
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().FirstOrDefault();
             //jsonFormatter.SerializerSettings.Converters.Add(new ConferenceRoomAPI.Models.ToLocalTimeZoneSerializer());
-            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             // Add support JSONP
             var formatter = new JsonpMediaTypeFormatter(jsonFormatter, "cb");
