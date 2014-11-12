@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="ConferenceRoomAPI9194" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\RedPoint\\ConfRoomService\\AzureDeployment\\ConferenceRoomAPI\\ConferenceRoomAPI\\obj\\Debug\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\RedPoint\\ConfRoomService\\AzureDeployment\\ConferenceRoomAPI\\ConferenceRoomAPI\\obj\\Debug\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="Add write permission to App_Data Folder" description="Add write permission to App_Data folder" value="ConferenceRoomAPI9194/App_Data" tags="Hidden">
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\RedPoint\\ConfRoomService\\AzureDeployment\\ConferenceRoomAPI\\ConferenceRoomAPI\\obj\\Debug\\Package\\PackageTmp\\App_Data$" />
+  </parameter>
+</parameters>

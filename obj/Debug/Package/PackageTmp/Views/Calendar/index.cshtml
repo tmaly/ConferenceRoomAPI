@@ -1,0 +1,123 @@
+﻿@model ConferenceRoomAPI.Models.SearchCriteria
+
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="table">
+    <div class="table-row">
+        <div class="table-cell">Conference Room</div>
+        <div class="table-cell">@Html.DropDownListFor(x => x.SelectedRoom, Model.ConfRooms)</div>
+    </div>
+    <div class="table-row">
+        <div class="table-cell">Start Date</div>
+        <div class="table-cell"><input type="text" name="StartDate" id="startdatepicker" /></div>
+    </div>
+    <div class="table-row">
+        <div class="table-cell">End Date</div>
+        <div class="table-cell"><input type="text" name="EndDate" id="enddatepicker" /></div>
+    </div>
+    <div class="table-row">
+        <div class="table-cell"><button id="search">View Calendar</button><div id="waitMsg" style="display:none;">Fetching Schedule...</div></div>
+        <div class="table-cell">&nbsp;</div>
+    </div>
+</div>
+
+<br/>
+
+<div id="calendar"></div>
+
+<script>
+
+    $(function () {
+        if ($("#startdatepicker")) {
+            $("#startdatepicker").datepicker();
+            $("#startdatepicker").datepicker("option", "dateFormat", "mm-dd-yy");
+        }
+        if ($("#enddatepicker")) {
+            $("#enddatepicker").datepicker();
+            $("#enddatepicker").datepicker("option", "dateFormat", "mm-dd-yy");
+        }
+    });
+
+    $("#search").click(function (e) {
+
+        try {
+
+            var room = $('#SelectedRoom').val();
+            var sd = $("#startdatepicker").val();
+            var ed = $("#enddatepicker").val();
+
+            if (!room || !ed || !sd) {
+                alert("Please select Conf. Room, Start Date and End Date");
+                return;
+            }
+
+            var _url = '/api/ConferenceRoom';
+
+            //'http://conferenceroomapi9194.azurewebsites.net/api/ConferenceRoom'
+            //'http://localhost:50093/api/ConferenceRoom';
+
+            _url += '/' + room;
+            _url += '/schedule/' + sd + '/' + ed;
+
+            $('#search').hide();
+            $('#waitMsg').show();
+
+            $.ajax({
+                url: _url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (resp) {
+
+                    var schedule = [];
+                    $.each(resp, function (index, value) {
+                        var date = new Date(value.StartDate);
+                        schedule.push({ title : value.Subject, start : value.StartDate, end : value.EndDate });
+                    });
+
+                    $('#calendar').fullCalendar('destroy');
+
+                    $('#calendar').fullCalendar({
+                        editable: false,
+                        eventLimit: true,
+                        header: {
+                            left: 'title',
+                            center: '',
+                            right: 'month,agendaWeek,agendaDay,prev,next'
+                        },
+                        eventClick: function(calEvent, jsEvent, view) {
+
+                            if (calEvent) {
+                                var display = calEvent.title + ': ';
+                                display += calEvent.start.format("h:mm a");
+                                display += ' to ';
+                                display += calEvent.end.format("h:mm a");
+
+                                alert(display);
+                                //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                            }
+                        },
+                        events: schedule
+                    });
+
+                    $('#search').show();
+                    $('#waitMsg').hide();
+
+                },
+                error: function (jqxhr, textstatus) {
+                    alert('Unable to Get CRs: ' + textstatus);
+                }
+            });
+        } catch (e) {
+            alert(e.message);
+        }
+
+    });
+    
+    $('.fc-next-button').click(function (e) {
+        alert('next');
+    });
+
+</script>
