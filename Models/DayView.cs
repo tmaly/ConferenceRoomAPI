@@ -10,6 +10,7 @@ namespace ConferenceRoomAPI.Models
     {
         public SelectList ConfRooms { get; set; }
         public string SelectedRoom { get; set; }
+        public string RoomName { get; set; }
 
         public string Date { get; set; }
         public string MonthStartDate { get; set; }

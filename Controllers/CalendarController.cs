@@ -33,6 +33,33 @@ namespace ConferenceRoomAPI.Controllers
         }
 
         [HttpGet]
+        public ActionResult mDayView(string mbx)
+        {
+            var list = srv.GetRooms();                
+            var model = new DayView();
+            model.Events = new { };
+            model.SelectedRoom = list[0].MailBox;
+            model.RoomName = list[0].Name;
+
+            if (!string.IsNullOrEmpty(mbx))
+            {
+                var room = list.ToList().FirstOrDefault(x => x.MailBox.ToLower() == mbx.ToLower());
+                if (room != null)
+                {
+                    model.SelectedRoom = room.MailBox;
+                    model.RoomName = room.Name;
+                }
+            }
+
+            var date = DateTime.Now;
+            model.Date = string.Format("{0}-{1}-{2}", date.Year, date.Month, date.Day);
+
+            model.ConfRooms = new SelectList(list, "MailBox", "MailBox");
+
+            return View(model);
+        }
+
+        [HttpGet]
         public ActionResult Index()
         {
             var list = srv.GetRooms();

@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    
+    <link rel='stylesheet' href='~/Scripts/fullcalendar-2.1.1/fullcalendar.css' />
+    <script src='~/Scripts/fullcalendar-2.1.1/lib/moment.min.js'></script>
+    <script src='~/Scripts/fullcalendar-2.1.1/fullcalendar.js'></script>
+    
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+</body>
+</html>

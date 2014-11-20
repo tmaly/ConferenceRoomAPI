@@ -1,0 +1,219 @@
+﻿@model ConferenceRoomAPI.Models.DayView
+
+@{
+    string date = Model.Date;
+    string name = Model.RoomName;
+    string mbx = Model.SelectedRoom;
+    ViewBag.Title = "mDayView";
+    Layout = "~/Views/Shared/_mobile.cshtml";
+}
+
+
+    <div class="table" style="width:500px;">
+        <div class ="table-row">
+            <h3 style="margin-top: 0; text-align:left">@name</h3>
+        </div>
+        <div class="table-row" id="overlay">
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+<div class="table" id="nav" style="width:500px;">
+    <div class="table-row">
+        <div class="table-cell" style="vertical-align:middle;"><button id="past">Past</button></div>
+        <div class="table-cellr"></div>
+        <div class="table-cell"><button id="room" style="float:right;">Room Info.</button></div>
+        <div class="table-cell" style="vertical-align:middle;"><button style="float:right;" id="future">Future</button></div>
+    </div>
+</div>
+
+<br />
+
+    <div id="data_cdte"></div>
+    <div id="data_mbx"></div>
+    <div id="data_count"></div>
+    <script>
+
+        function loadSchedule(date, mbx) {
+
+            try {
+
+                // date must have form mm-dd-yyyy
+
+                var _url = '/api/ConferenceRoom';
+
+                //var _url = 'http://conferenceroomapi9194.azurewebsites.net/api/ConferenceRoom';
+                //var _url = 'http://localhost:50093/api/ConferenceRoom';
+                _url += '/' + mbx;
+                _url += '/schedule/' + date;
+
+                $('#overlay').addClass('loadingOverlay')
+
+                $.ajax({
+                    url: _url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+
+                        var schedule = [];
+                        $.each(resp, function (index, value) {
+                            schedule.push({ title: value.Subject, start: value.StartDate, end: value.EndDate });
+                        });
+
+                        $('#nav').show();
+                        $('#overlay').removeClass('loadingOverlay')
+
+                        $('#calendar').fullCalendar('destroy');
+
+                        $('#calendar').fullCalendar({
+                            editable: false,
+                            defaultDate: date,
+                            timezone: 'local',
+                            height: 600,
+                            defaultView: 'agendaDay',
+                            header: {
+                                left: 'title',
+                                center: '',
+                                right: ''
+                            },
+                            eventClick: function (calEvent, jsEvent, view) {
+
+                                var display = calEvent.title + ': ';
+
+                                display += calEvent.start.format("h:mm a");
+                                display += ' to ';
+                                display += calEvent.end.format("h:mm a");
+
+                                alert(display);
+                            },
+                            events: schedule
+                        });
+
+                    },
+                    error: function (jqxhr, textstatus) {
+                        alert('Unable to Get CRs: ' + textstatus);
+
+                        $('#overlay').removeClass('loadingOverlay')
+                    }
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        function loadRoomInfo() {
+
+            try {
+
+                var room = getMbx();
+                if (!room) {
+                    return;
+                }
+
+                var _url = '/api/ConferenceRooms';
+                _url += '/' + room + '/information'
+
+                $.ajax({
+                    url: _url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+
+                        // {"roomAttributes":{"mailBox":"SoxConferenceRoom@sprcompanies.com","capacity":10,"phoneNumber":null,"aav":true,"whiteBoard":true}}
+
+                        var attr = resp.RoomAttributes;
+                        var data = attr.Name + '\r\n';
+                        data += 'Capacity:   ' + attr.Capacity + '\r\n';
+                        data += 'Phone #:   ' + attr.PhoneNumber + '\r\n';
+                        data += 'White Board:   ' + attr.WhiteBoard + '\r\n';
+                        data += 'AAV:   ' + attr.AAV + '\r\n';
+                        data += 'Major ID:   ' + attr.MajorID + '\r\n';
+                        data += 'Minor ID:   ' + attr.MinorID + '\r\n';
+
+                        alert(data);
+
+                    },
+                    error: function (jqxhr, textstatus) {
+                        alert('Unable to Get Conference Room Information: ' + textstatus);
+                    }
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        $('#past').click(function (e) {
+            incrementDate(-1);
+            loadSchedule(getDate(), getMbx());
+        });
+
+        $('#room').click(function (e) {
+
+            loadRoomInfo();
+
+        });
+
+        $('#future').click(function (e) {
+            incrementDate(1);
+            loadSchedule(getDate(), getMbx());
+        });
+
+        function getDate() {
+            var div_cdte = $("div#data_cdte")[0];
+            var date = jQuery.data(div_cdte, "cdte");
+            return date.current;
+        }
+
+        function getMbx() {
+            var div_mbx = $("div#data_mbx")[0];
+            var mbx = jQuery.data(div_mbx, "mbx");
+            return mbx.current;
+        }
+
+        function setDate(dte) {
+            var div_tid = $("div#data_cdte")[0];
+            jQuery.data(div_tid, "cdte", { current: dte });
+        }
+
+        function setMbx(mbx) {
+            var div_mbx = $("div#data_mbx")[0];
+            jQuery.data(div_mbx, "mbx", { current: mbx });
+        }
+
+        function init(date, mbx) {
+
+            $('#nav').hide();
+            setDate(date);
+            setMbx(mbx);
+
+            loadSchedule(date, mbx);
+
+
+        }
+
+        function incrementDate(value) {
+
+            try {
+
+                var current = getDate();
+                var parts = current.split(" ");
+                var d = parts[0].split("-");
+                var cd = new Date(d[0], (d[1] - 1), d[2], "0", "0", "0");
+                var newDay = cd.getDate() + value;
+                cd.setDate(newDay);
+                var newDate = cd.getFullYear() + '-' + (cd.getMonth() + 1) + '-' + newDay;
+                setDate(newDate);
+
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        $('#refresh').click(function (e) {
+            loadSchedule(getDate());
+        });
+
+        init(@Html.Raw('"' + @date + '"'), @Html.Raw('"' + @mbx + '"'));
+
+    </script>
+
