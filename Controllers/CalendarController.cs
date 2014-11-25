@@ -35,7 +35,16 @@ namespace ConferenceRoomAPI.Controllers
         [HttpGet]
         public ActionResult mDayView(string mbx)
         {
-            var list = srv.GetRooms();                
+            var dynList = new List<dynamic>();
+
+            var list = srv.GetRooms();
+
+            list.ForEach(x => 
+            {
+                var name = x.MailBox.Split('@');
+                dynList.Add(new { Name = name[0], MailBox = x });
+            });
+
             var model = new DayView();
             model.Events = new { };
             model.SelectedRoom = list[0].MailBox;
@@ -54,7 +63,7 @@ namespace ConferenceRoomAPI.Controllers
             var date = DateTime.Now;
             model.Date = string.Format("{0}-{1}-{2}", date.Year, date.Month, date.Day);
 
-            model.ConfRooms = new SelectList(list, "MailBox", "MailBox");
+            model.ConfRooms = new SelectList(list, "MailBox", "Name");
 
             return View(model);
         }

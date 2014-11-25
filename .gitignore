@@ -41,3 +41,9 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+*.dll
+*.pdb
+*.pdb
+*.pdb
+*.dll
