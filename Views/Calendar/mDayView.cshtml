@@ -7,10 +7,13 @@
     Layout = "~/Views/Shared/_mobile.cshtml";
 }
 
+<div class="sprLogo" style="width:500px;margin-bottom:15px;">
+    <img src="~/Content/Images/sprConsultingLogo.png" style="display: block;max-width: 60%;margin: 0 auto;" alt="" />
+</div>
 
 <div class="table" style="width:500px;margin-top:-5px;">
     <div class="table-row">
-        <div class="table-cell">SPR Consulting Conference Room</div>
+        <div class="table-cell">Conference Room</div>
         <div class="table-cell">@Html.DropDownListFor(x => x.SelectedRoom, Model.ConfRooms)</div>
         <div class="table-cell"><button id="refresh">Refresh</button></div>
     </div>
