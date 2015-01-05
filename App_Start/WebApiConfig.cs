@@ -43,6 +43,12 @@ namespace ConferenceRoomAPI
             );
 
             config.Routes.MapHttpRoute(
+                name: "DateWindow",
+                routeTemplate: "api/ConferenceRoom/window/{date}",
+                defaults: new { controller = "RoomSchedule" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "ScheduleForDateRange",
                 routeTemplate: "api/ConferenceRoom/{id}/schedule/{startdate}/{enddate}",
                 defaults: new { controller = "RoomSchedule" }

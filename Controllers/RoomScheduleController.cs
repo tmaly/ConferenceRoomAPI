@@ -48,8 +48,8 @@ namespace ConferenceRoomAPI.Controllers
                 var _id = this.getRoom(id);
 
                 if (_id != null && date.IsDate())
-                {                    
-                    var list = srv.GetRoomScheduleForDate(_id.MailBox, date.ToDate().Value);                    
+                {
+                    var list = srv.GetRoomScheduleForDate(_id.MailBox, date.ToDate().Value);
                     return Request.CreateResponse(HttpStatusCode.OK, list, "application/json");
                 }
                 else
@@ -60,6 +60,26 @@ namespace ConferenceRoomAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
+
+        public HttpResponseMessage GetDateWindow(string date)
+        {
+            try
+            {
+                // api/ConferenceRoom/window/{date}
+                if (date.IsDate())
+                {
+                    var prev_next = date.GetDateWindow();
+                    return Request.CreateResponse(HttpStatusCode.OK, new { prev = prev_next[0], next = prev_next[1] }, "application/json");
+                }
+                else
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Missing Date argument");
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
 
         /// <param name="id">
         ///  Mailbox of Conf. Room: xxx@yyy.zzz

@@ -38,5 +38,15 @@ namespace ConferenceRoomAPI.Models
 
             return null;
         }
+
+        public static List<string> GetDateWindow(this string str)
+        {
+            var date = str.ToDate();
+            if (date != null)
+            {
+                return new List<string> { date.Value.AddDays(-1).ToString("yyyy-MM-dd"), date.Value.AddDays(1).ToString("yyyy-MM-dd") };
+            }
+            return new List<string>();
+        }
     }
 }

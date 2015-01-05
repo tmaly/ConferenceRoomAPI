@@ -25,7 +25,7 @@ namespace ConferenceRoomAPI.Controllers
             var model = new DayView();
             model.Events = new { };
             var date = DateTime.Now;
-            model.Date = string.Format("{0}-{1}-{2}", date.Year, date.Month, date.Day);
+            model.Date = date.ToString("yyyy-MM-dd");
 
             model.ConfRooms = new SelectList(list, "MailBox", "MailBox");
 
