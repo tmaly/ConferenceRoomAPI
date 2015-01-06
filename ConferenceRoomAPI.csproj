@@ -214,6 +214,7 @@
     <None Include="Properties\PublishProfiles\ConferenceRoomAPI9194 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\ConferenceRoomAPI9194.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\conferenceroom.js" />
     <Content Include="Scripts\data.js" />
     <Content Include="Scripts\fullcalendar-2.1.1\fullcalendar.css" />
     <Content Include="Scripts\fullcalendar-2.1.1\fullcalendar.js" />

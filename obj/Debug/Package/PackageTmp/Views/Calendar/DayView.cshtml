@@ -43,9 +43,7 @@
 
     <br />
 
-    <script src="~/Scripts/data.js"></script>
+    <script src="~/Scripts/conferenceroom.js"></script>
     <script>
-
-        init(@Html.Raw('"' + @date + '"'));
-
+        init(@Html.Raw('"' + @date + '"'), $('#SelectedRoom').val());
     </script>
