@@ -251,7 +251,8 @@
     <Content Include="Views\Calendar\DayView.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Calendar\mDayView.cshtml" />
-    <Content Include="Views\Shared\_mobile.cshtml" />
+    <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
+    <Content Include="Views\Calendar\mDayView.Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonModel\CommonModel.csproj">

@@ -83,11 +83,13 @@ function loadRoomInfo() {
                 var attr = resp.RoomAttributes;
                 var data = attr.Name + '\r\n';
                 data += 'Capacity:   ' + attr.Capacity + '\r\n';
-                data += 'Phone #:   ' + attr.PhoneNumber + '\r\n';
+                if (attr.PhoneNumber) {
+                    data += 'Phone #:   ' + attr.PhoneNumber + '\r\n';
+                }
                 data += 'White Board:   ' + attr.WhiteBoard + '\r\n';
-                data += 'AAV:   ' + attr.AAV + '\r\n';
-                data += 'Major ID:   ' + attr.MajorID + '\r\n';
-                data += 'Minor ID:   ' + attr.MinorID + '\r\n';
+                data += 'Projector:   ' + attr.AAV + '\r\n';
+                //data += 'Major ID:   ' + attr.MajorID + '\r\n';
+                //data += 'Minor ID:   ' + attr.MinorID + '\r\n';
 
                 alert(data);
 

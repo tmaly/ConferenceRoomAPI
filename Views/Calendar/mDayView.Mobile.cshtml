@@ -1,0 +1,40 @@
+﻿@model ConferenceRoomAPI.Models.DayView
+
+@{
+    string date = Model.Date;
+    string mbx = Model.SelectedRoom;
+    ViewBag.Title = "mDayView";
+    Layout = "~/Views/Shared/_Layout.Mobile.cshtml";
+    DisplayModeProvider.Instance.RequireConsistentDisplayMode = true;
+}
+
+<div class="sprLogo" style="width:400px;margin-bottom:15px;margin-top:-20px;">
+    <img src="~/Content/Images/sprConsultingLogo.png" style="display: block;max-width: 60%;margin: 0 auto;" alt="" />
+</div>
+
+<div class="table" style="width:400px;margin-top:-5px;">
+    <div class="table-row form-group">
+        <div class="table-cell">@Html.DropDownListFor(x => x.SelectedRoom, Model.ConfRooms, new { @class = "form-control" })</div>
+        <div class="table-cell"><button class="btn btn-sm btn-success" id="refresh">View Schedule</button></div>
+    </div>
+</div>
+
+<div id="overlay" style="width:380px;margin-top:5px;">
+    <div class="table">
+        <div class="table-row">
+            <div id="calendar"></div>
+        </div>
+    </div>
+</div>
+
+<ul class="pager" id="nav" style="width:390px;margin-top:5px;">
+    <li class="previous"><a id="past">&larr; Previous</a></li>
+    <li><button id="room" class="btn btn-sm btn-success">Room Info.</button></li>
+    <li class="next"><a id="future">Next &rarr;</a></li>
+</ul>
+<br />
+
+<script src="~/Scripts/conferenceroom.js"></script>
+<script>
+    init(@Html.Raw('"' + @date + '"'), @Html.Raw('"' + @mbx + '"'));
+</script>

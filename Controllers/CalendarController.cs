@@ -60,8 +60,10 @@ namespace ConferenceRoomAPI.Controllers
                 }
             }
 
-            var date = DateTime.Now;
-            model.Date = date.ToString("yyyy-MM-dd");
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            var utcDate = DateTime.Now.ToUniversalTime();
+            DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(utcDate, cstZone);
+            model.Date = cstTime.ToString("yyyy-MM-dd");
             model.ConfRooms = new SelectList(list, "MailBox", "Name");
 
             return View(model);

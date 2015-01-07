@@ -4,7 +4,7 @@
     string date = Model.Date;
     string mbx = Model.SelectedRoom;
     ViewBag.Title = "mDayView";
-    Layout = "~/Views/Shared/_mobile.cshtml";
+    Layout = "~/Views/Shared/_Layout.Mobile.cshtml";
 }
 
 <div class="sprLogo" style="width:500px;margin-bottom:15px;">
@@ -21,21 +21,23 @@
 
 
 <div id="overlay">
-    <div class="table" style="width:500px;">
+    <div class="table" style="width:400px;">
         <div class="table-row">
             <div id="calendar"></div>
         </div>
     </div>
 </div>
 
-<div class="table" id="nav" style="width:500px;">
-    <div class="table-row">
-        <div class="table-cell" style="vertical-align:middle;"><button id="past"><</button></div>
-        <div class="table-cell"></div>
-        <div class="table-cell"><button id="room" style="float:right;">Room Info.</button></div>
-        <div class="table-cell" style="vertical-align:middle;"><button style="float:right;" id="future">></button></div>
+
+<div id="nav" style="width:400px;">
+    <div class="row" style="width:100%;">
+        <div class="col-xs-3"><button class="btn btn-sm btn-success" id="past">Prev</button></div>
+        <div class="col-xs-6"><button id="room" class="btn btn-sm btn-success">Room Info.</button></div>
+        <div class="col-xs-3 pull-right"><button class="btn btn-sm btn-success" id="future">Next</button></div>
     </div>
 </div>
+
+
 
 <br />
 
